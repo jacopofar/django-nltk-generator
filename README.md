@@ -1,5 +1,6 @@
 This Django applications shows how it is possible to generate a text from a NLTK grammar.
 
+[![Build Status](https://travis-ci.org/jacopofar/django-nltk-generator.svg?branch=master)](https://travis-ci.org/jacopofar/django-nltk-generator)
 How to run
 =========
 
