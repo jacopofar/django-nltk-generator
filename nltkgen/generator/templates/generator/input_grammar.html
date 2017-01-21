@@ -1,0 +1,29 @@
+{% extends 'generator/layout.html' %}
+{% load static %}
+{% block title %}Grammar sample generator{% endblock title %}
+
+{% block content %}
+<h1>Free grammar sample generator</h1>
+<p>This application generates a text based on a NLTK grammar and a generation seed</p>
+<p>The same generation seed gets the same grammar sample</p>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'generator:generate' %}" method="post">
+{% csrf_token %}
+    <label for="grammar_definition">Grammar definition (NLTK format) goes here:</label><br/>
+    <textarea name="grammar_definition" rows="10" cols="80">
+        {{ grammar_definition }}
+    </textarea> <br>
+    <label for="seed">Seed for random sample goes here:</label>
+    <input type="text" name="seed" value="{{ seed }}"/>
+    <br />
+<input type="submit" class="btn btn-lg btn-primary" value="Generate!" />
+</form>
+
+{% if generated_text %}
+<div class="well">
+<p><strong>{{ generated_text }}</strong></p>
+</div>
+{% endif %}
+{% endblock content %}

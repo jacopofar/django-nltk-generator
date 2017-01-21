@@ -41,12 +41,11 @@ class SampleGenerator:
         words = []
         productions = self.grammar.productions(lhs=symbol)
         production = self._deterministic_choice(productions, seed + str(counter))
-        for sym in production.rhs():
-            counter += 1
+        for (i,sym) in enumerate(production.rhs()):
             if isinstance(sym, str):
                 words.append(sym)
             else:
-                words.extend(self._produce(sym, seed, counter + 1))
+                words.extend(self._produce(sym, seed + str(i) + ' ', counter + 1))
         return words
 
     def generate(self, seed):

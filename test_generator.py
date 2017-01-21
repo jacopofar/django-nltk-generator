@@ -1,5 +1,5 @@
 import pytest
-from sample_generator import sample_generator
+from nltkgen.sample_generator import sample_generator
 
 class TestGenerator:
     def test_instantiate(self):
