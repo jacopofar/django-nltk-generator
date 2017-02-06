@@ -27,7 +27,7 @@ class SampleGenerator:
         return choices[xh.intdigest() % len(choices)]
 
     """
-    Expand a nonterminal *randomly* based on a seed
+    Expand a nonterminal *randomly* based on a seed, stopping when reaching an excessive recursion
     Parameters
     ----------
     symbol : Nonterminal
@@ -36,20 +36,30 @@ class SampleGenerator:
         A string used as seed to choose a random element
     counter : int
         depth of the recursion, used to operate the deterministic choice
+    max_depth : int
+        the maximum recursion depth, if reached
     """
-    def _produce(self, symbol, seed, counter):
+    def _produce(self, symbol, seed, counter, max_depth, max_depth_token):
         words = []
         productions = self.grammar.productions(lhs=symbol)
         production = self._deterministic_choice(productions, seed + str(counter))
-        for (i,sym) in enumerate(production.rhs()):
+        if counter > max_depth:
+            # print(' --max recursion reached--')
+            words.append(max_depth_token)
+            return True, words
+        # print('picked expansion ' + str(production) + ' for ' + str(symbol) + ' at counter ' + str(counter))
+        is_truncated = False
+        for (i, sym) in enumerate(production.rhs()):
             if isinstance(sym, str):
                 words.append(sym)
             else:
-                words.extend(self._produce(sym, seed + str(i) + ' ', counter + 1))
-        return words
+                trunc, extension = self._produce(sym, seed, counter + 1 + i,  max_depth, max_depth_token)
+                is_truncated = is_truncated or trunc
+                words.extend(extension)
+        return is_truncated, words
 
-    def generate(self, seed):
-        return self._produce(self.gr.start(), seed, 0)
+    def generate(self, seed, max_depth=100, max_depth_token=' --max recursion reached-- '):
+        return self._produce(self.gr.start(), seed, 0, max_depth, max_depth_token)
 
 
 

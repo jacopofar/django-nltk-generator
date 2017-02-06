@@ -13,7 +13,7 @@ FUN -> 'sin'|'sqrt'""",
 def generate(request):
     try:
         gen = sample_generator.SampleGenerator(request.POST['grammar_definition'])
-        generated_text = ''.join(gen.generate(request.POST['seed']))
+        generated_text = ''.join(gen.generate(request.POST['seed'])[1])
         return render(request, 'generator/input_grammar.html', {
             'grammar_definition': request.POST['grammar_definition'],
             'generated_text': generated_text,
