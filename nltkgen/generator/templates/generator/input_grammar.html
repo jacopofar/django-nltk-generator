@@ -12,9 +12,7 @@
 <form action="{% url 'generator:generate' %}" method="post">
 {% csrf_token %}
     <label for="grammar_definition">Grammar definition (NLTK format) goes here:</label><br/>
-    <textarea name="grammar_definition" rows="10" cols="80">
-        {{ grammar_definition }}
-    </textarea> <br>
+    <textarea name="grammar_definition" rows="10" cols="80">{{ grammar_definition }}</textarea> <br>
     <label for="seed">Seed for random sample goes here:</label>
     <input type="text" name="seed" value="{{ seed }}"/>
     <br />
