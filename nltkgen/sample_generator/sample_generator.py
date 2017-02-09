@@ -1,13 +1,14 @@
-from nltk import CFG
-from nltk import ChartParser
+from nltk import FeatureEarleyChartParser
+from nltk import grammar as nltkgr
 import xxhash
 
 __all__ = ['SampleGenerator']
 
+
 class SampleGenerator:
     def __init__(self, grammar):
-        self.grammar = CFG.fromstring(grammar)
-        parser = ChartParser(self.grammar)
+        self.grammar = nltkgr.FeatureGrammar.fromstring(grammar)
+        parser = FeatureEarleyChartParser(self.grammar)
         self.gr = parser.grammar()
 
     """
