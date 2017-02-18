@@ -61,13 +61,17 @@ class SampleGenerator:
     def _produce(self, symbol, seed, counter, max_depth, max_depth_token, bound_features):
         words = []
         productions = list(filter(lambda p : self._respects(p, bound_features), self.grammar.productions(lhs=symbol)))
+        if len(productions) == 0:
+            if len(bound_features) > 0:
+                raise Exception('Cannot find a production for ' + str(symbol) + ' with the features ' + str(bound_features))
+            else:
+                raise Exception('Cannot find a production for ' + str(symbol))
         production = self._deterministic_choice(productions, seed + str(counter))
         # by picking a production, was a feature bound?
         # For example, symbol had GEN=?x and a production lhs with GEN=m was picked
         # in that case th value will be returner to the caller to bound the next nonterminal in its RHS
         bound_variables = {}
         for bound_candidate in production.lhs().keys():
-            print('symbol', symbol)
             if isinstance(symbol[bound_candidate], Variable):
                 bound_variables[bound_candidate] = production.lhs()[bound_candidate]
         if counter > max_depth:
