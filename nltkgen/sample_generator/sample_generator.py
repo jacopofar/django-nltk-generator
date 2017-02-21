@@ -90,6 +90,8 @@ class SampleGenerator:
                 for key, value in sym.items():
                     if value in bound_placeholders.keys():
                         nonterminal_bound_feats[key] = bound_placeholders[value]
+                    if not isinstance(value, Variable):
+                        nonterminal_bound_feats[key] = value
                 trunc, extension, bounded_variables = self._produce(sym, seed, counter + 1 + i,  max_depth, max_depth_token, nonterminal_bound_feats)
                 for key, value in bounded_variables.items():
                     bound_placeholders[sym[key]] = value
