@@ -29,10 +29,13 @@ UPPERCASE_LETTER -> 'A-+-'|'B-+-'|'C-+-'|'D-+-'|'E-+-'|'F-+-'|'G-+-'|'H-+-'|'I-+
 OPT_COMPARAZIONE -> 'della stessa natura' PROPOSIZIONE_DI[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]
 OPT_COMPARAZIONE -> 'come' ARTICOLO_DET[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]
 OPT_COMPARAZIONE -> 'alla stessa maniera' PROPOSIZIONE_DI[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]
+OPT_COMPARAZIONE[NUM=?n,GEN=?g] -> 'simile' PROPOSIZIONE_A[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]
 
 OPT_COMPARAZIONE[NUM=?n,GEN=?g] -> 'della stessa natura' PROPOSIZIONE_DI[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v] ', ma' AGGETTIVO[NUM=?n,GEN=?g]
 OPT_COMPARAZIONE[NUM=?n,GEN=?g] -> 'come' ARTICOLO_DET[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]', ma' AGGETTIVO[NUM=?n,GEN=?g]
 OPT_COMPARAZIONE[NUM=?n,GEN=?g] -> 'alla stessa maniera' PROPOSIZIONE_DI[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]', ma' AGGETTIVO[NUM=?n,GEN=?g]
+OPT_COMPARAZIONE[NUM=?n,GEN=?g] -> 'simile' PROPOSIZIONE_A[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]', ma' AGGETTIVO[NUM=?n,GEN=?g]
+
 
 OPT_COMPARAZIONE -> ' '
 
@@ -48,6 +51,14 @@ PROPOSIZIONE_DI[GEN=m, NUM=s, -VOWEL] -> 'del'
 PROPOSIZIONE_DI[GEN=f, NUM=s, -VOWEL] -> 'della'
 PROPOSIZIONE_DI[GEN=m, NUM=p, -VOWEL] -> 'degli'
 PROPOSIZIONE_DI[GEN=f, NUM=p, -VOWEL] -> 'delle'
+
+PROPOSIZIONE_A[GEN=m, NUM=s, +VOWEL] -> 'all&apos;'
+PROPOSIZIONE_A[GEN=f, NUM=s, +VOWEL] -> 'all&apos;'
+PROPOSIZIONE_A[GEN=m, NUM=p, +VOWEL] -> 'agli'
+PROPOSIZIONE_A[GEN=m, NUM=s, -VOWEL] -> 'al'
+PROPOSIZIONE_A[GEN=f, NUM=s, -VOWEL] -> 'alla'
+PROPOSIZIONE_A[GEN=m, NUM=p, -VOWEL] -> 'agli'
+PROPOSIZIONE_A[GEN=f, NUM=p, -VOWEL] -> 'alle'
 
 ARTICOLO_DET[GEN=m, NUM=s, +VOWEL] -> 'l&apos;'
 ARTICOLO_DET[GEN=f, NUM=s, +VOWEL] -> 'l&apos;'
