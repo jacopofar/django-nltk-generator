@@ -1,0 +1,61 @@
+# Grammar for generic Italian statements, based on text from wikipedia
+# Un cirrostrato (in latino cirrostratus, abbreviazione Cs) è una nube della stessa natura dei cirri, ma formata da un velo continuo, traslucido, che copre totalmente o parzialmente il cielo.
+S -> AI[NUM=?n,GEN=?g] NN[NUM=?n,GEN=?g] OPT_DEFINITION COPULA_PRESENT[NUM=?n] AI[NUM=?n,GEN=?gx] NN[NUM=?n,GEN=?gx] OPT_COMPARAZIONE[NUM=?n,GEN=?g]
+
+
+AI[NUM=s,GEN=m] -> 'un'
+NN[NUM=s,GEN=m,-VOWEL] -> 'cirrostrato'
+NN[NUM=s,GEN=m,+VOWEL] -> 'albume'
+NN[NUM=p,GEN=m,-VOWEL] -> 'scolapasta'
+NN[NUM=p,GEN=m,-VOWEL] -> 'archetti'
+NN[NUM=p,GEN=f,-VOWEL] -> 'tovaglie'
+NN[NUM=p,GEN=m,+VOWEL] -> 'stratigrafi'
+
+
+COPULA_PRESENT[NUM=s] -> 'è'
+COPULA_PRESENT[NUM=p] -> 'sono'
+
+# (in latino cirrostratus, abbreviazione Cs)
+OPT_DEFINITION -> '(in latino' LATIN_NAME ', abbreviazione' ACRONYM ')' | '-+-'
+
+LATIN_NAME -> SYLLABLES 'tum' | SYLLABLES 'tus'
+SYLLABLES -> SYLLABLE | SYLLABLE SYLLABLES
+SYLLABLE -> 'ce-+-'|'se-+-'|'du-+-'
+
+ACRONYM -> UPPERCASE_LETTER '-+-'| UPPERCASE_LETTER ACRONYM '-+-'|UPPERCASE_LETTER ACRONYM '-+-'
+UPPERCASE_LETTER -> 'A-+-'|'B-+-'|'C-+-'|'D-+-'|'E-+-'|'F-+-'|'G-+-'|'H-+-'|'I-+-'|'J-+-'|'K-+-'|'L-+-'|'M-+-'|'N-+-'|'O-+-'|'P-+-'|'Q-+-'|'R-+-'|'S-+-'|'T-+-'|'U-+-'|'V-+-'|'X-+-'|'Y-+-'|'W-+-'|'Z-+-'
+
+# della stessa natura dei cirri
+OPT_COMPARAZIONE -> 'della stessa natura' PROPOSIZIONE_DI[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]
+OPT_COMPARAZIONE -> 'come' ARTICOLO_DET[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]
+OPT_COMPARAZIONE -> 'alla stessa maniera' PROPOSIZIONE_DI[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]
+
+OPT_COMPARAZIONE[NUM=?n,GEN=?g] -> 'della stessa natura' PROPOSIZIONE_DI[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v] ', ma' AGGETTIVO[NUM=?n,GEN=?g]
+OPT_COMPARAZIONE[NUM=?n,GEN=?g] -> 'come' ARTICOLO_DET[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]', ma' AGGETTIVO[NUM=?n,GEN=?g]
+OPT_COMPARAZIONE[NUM=?n,GEN=?g] -> 'alla stessa maniera' PROPOSIZIONE_DI[GEN=?g, NUM=p, VOWEL=?v] NN[GEN=?g, NUM=p, VOWEL=?v]', ma' AGGETTIVO[NUM=?n,GEN=?g]
+
+OPT_COMPARAZIONE -> ' '
+
+AGGETTIVO[GEN=m, NUM=s] -> 'azzurro'
+AGGETTIVO[GEN=f, NUM=s] -> 'azzurra'
+AGGETTIVO[GEN=m, NUM=p] -> 'azzurri'
+AGGETTIVO[GEN=f, NUM=p] -> 'azzurre'
+
+PROPOSIZIONE_DI[GEN=m, NUM=s, +VOWEL] -> 'dell&apos;'
+PROPOSIZIONE_DI[GEN=f, NUM=s, +VOWEL] -> 'dell&apos;'
+PROPOSIZIONE_DI[GEN=m, NUM=p, +VOWEL] -> 'degli'
+PROPOSIZIONE_DI[GEN=m, NUM=s, -VOWEL] -> 'del'
+PROPOSIZIONE_DI[GEN=f, NUM=s, -VOWEL] -> 'della'
+PROPOSIZIONE_DI[GEN=m, NUM=p, -VOWEL] -> 'degli'
+PROPOSIZIONE_DI[GEN=f, NUM=p, -VOWEL] -> 'delle'
+
+ARTICOLO_DET[GEN=m, NUM=s, +VOWEL] -> 'l&apos;'
+ARTICOLO_DET[GEN=f, NUM=s, +VOWEL] -> 'l&apos;'
+ARTICOLO_DET[GEN=m, NUM=p, +VOWEL] -> 'i'
+ARTICOLO_DET[GEN=m, NUM=s, -VOWEL] -> 'il'
+ARTICOLO_DET[GEN=f, NUM=s, -VOWEL] -> 'la'
+ARTICOLO_DET[GEN=m, NUM=p, -VOWEL] -> 'i'
+ARTICOLO_DET[GEN=f, NUM=p, -VOWEL] -> 'le'
+
+NUM -> '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'
+NUM -> '1' NUM|'2' NUM|'3' NUM|'4' NUM|'5' NUM|'6' NUM|'7' NUM|'8' NUM|'9' NUM

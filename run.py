@@ -9,7 +9,7 @@ def seed_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-with open('titoli_giornali.fcfg', 'r', encoding='utf8') as grammar_file:
+with open('generico_it_wikipedia.fcfg', 'r', encoding='utf8') as grammar_file:
     gram = grammar_file.read()
     gen = sample_generator.SampleGenerator(gram)
 
@@ -24,7 +24,19 @@ def to_clean_text(tokens):
             if t[0] == ',':
                 clean_tokens.extend(t)
                 continue
-        clean_tokens.extend(' ' + t)
+            # do not use spaces when the previous token ends with -+-
+            if tokens[i - 1][-3:] == '-+-':
+                # remove trailing -+-
+                if t[-3:] == '-+-':
+                    clean_tokens.extend(t[:-3])
+                else:
+                    clean_tokens.extend(t)
+                continue
+        # remove trailing -+-
+        if t[-3:] == '-+-':
+            clean_tokens.extend(' ' + t[:-3])
+        else:
+            clean_tokens.extend(' ' + t)
     return ''.join(clean_tokens)
 
 
