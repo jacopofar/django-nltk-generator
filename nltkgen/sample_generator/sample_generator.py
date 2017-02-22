@@ -38,7 +38,7 @@ class SampleGenerator:
     @staticmethod
     def _respects(production, features):
         return all(map(lambda feat:
-                       feat not in features or features[feat] == production.lhs()[feat],
+                       feat not in features or isinstance(production.lhs()[feat], Variable) or features[feat] == production.lhs()[feat],
                        production.lhs().keys()))
 
     """
@@ -72,6 +72,9 @@ class SampleGenerator:
         # in that case th value will be returner to the caller to bound the next nonterminal in its RHS
         bound_variables = {}
         for bound_candidate in production.lhs().keys():
+            if bound_candidate not in symbol:
+                continue
+                # raise Exception('cannot find feature "' + str(bound_candidate) + '" to be bound, among the ones of the nonterminal ' + symbol.unicode_repr() )
             if isinstance(symbol[bound_candidate], Variable):
                 bound_variables[bound_candidate] = production.lhs()[bound_candidate]
         if counter > max_depth:
@@ -80,7 +83,14 @@ class SampleGenerator:
             return True, words
         # print('picked expansion ' + str(production) + ' for ' + str(symbol) + ' at counter ' + str(counter))
         is_truncated = False
+        # additionally, the lhs may have had variables, like NN[NUM=?x, GEN=?y] -> SOMETHING[NUM=?x] ...
+        # in that case these has to be bound, too
         bound_placeholders = {}
+        for bound_candidate in production.lhs().keys():
+            if bound_candidate not in bound_features.keys():
+                continue
+            if isinstance(symbol[bound_candidate], Variable):
+                bound_placeholders[bound_candidate] = bound_features[bound_candidate]
         for (i, sym) in enumerate(production.rhs()):
             if isinstance(sym, str):
                 words.append(sym)
@@ -92,6 +102,10 @@ class SampleGenerator:
                         nonterminal_bound_feats[key] = bound_placeholders[value]
                     if not isinstance(value, Variable):
                         nonterminal_bound_feats[key] = value
+                    else:
+                        if key in bound_placeholders:
+                            nonterminal_bound_feats[key] = bound_placeholders[key]
+
                 trunc, extension, bounded_variables = self._produce(sym, seed, counter + 1 + i,  max_depth, max_depth_token, nonterminal_bound_feats)
                 for key, value in bounded_variables.items():
                     bound_placeholders[sym[key]] = value
